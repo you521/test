@@ -9,6 +9,7 @@
 	<name>rabbitmq-demo</name>
 	<description>rabbitmq学习demo</description>
 
+    <!-- 引入父依赖包 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -21,6 +22,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <fastjson.version>1.2.56</fastjson.version>
+        <lombok.version>1.18.10</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -37,6 +40,29 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- spring boot 热部署 -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖该项目的项目如果想要使用devtools，需要重新引入 -->
+            <optional>true</optional>  
+            <scope>true</scope>
+        </dependency>
+		
+		<!-- fastjson依赖包 -->
+		 <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        
+        <!-- lombok依赖 -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <optional>true</optional>
 		</dependency>
 	</dependencies>
 
