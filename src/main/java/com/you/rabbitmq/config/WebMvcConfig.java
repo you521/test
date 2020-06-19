@@ -67,6 +67,8 @@ public class WebMvcConfig implements WebMvcConfigurer
                   );
           // fastjson 编码配置
           fastJsonConfig.setCharset(Charset.forName("UTF-8"));
+          // 设置全局的日期格式
+          //fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
           //在convert中添加配置信息
           fastJsonConverter.setFastJsonConfig(fastJsonConfig);
           //处理中文乱码问题
