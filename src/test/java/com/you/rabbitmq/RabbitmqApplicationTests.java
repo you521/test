@@ -17,11 +17,10 @@ public class RabbitmqApplicationTests {
     private RabbitMQConsumerService rabbitMQConsumerService;
     @Autowired
     private RabbitMQProducerService rabbitMQProducerService;
-    
+
     @Test
-    public void testInsertUser1(){
-        try 
-        {
+    public void testInsertUser1() {
+        try {
             rabbitMQProducerService.rabbitMQProducer("guilfFirstRabbitMQ2");
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,10 +28,10 @@ public class RabbitmqApplicationTests {
     }
 
     @Test
-    public void testInsertUser(){
-        try 
-        {
-            rabbitMQConsumerService.rabbitMQConsumer("shaoyou");
+    public void testInsertUser() {
+        try {
+            String name = rabbitMQConsumerService.rabbitMQConsumer("shaoyou");
+            System.out.println("name-------->" + name);
         } catch (Exception e) {
             e.printStackTrace();
         }
