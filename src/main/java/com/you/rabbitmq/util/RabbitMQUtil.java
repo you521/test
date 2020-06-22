@@ -1,6 +1,7 @@
 package com.you.rabbitmq.util;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -18,20 +19,15 @@ import com.rabbitmq.client.Envelope;
  */
 
 public class RabbitMQUtil {
+    
+    
+    
     // ==========================测试环境================================
-    private final static String MQ_IP = "49.232.136.165";
-    private final static Integer MQ_PORT = 5672;
-    private final static String MQ_USERNAME = "admin";
-    private final static String MQ_PASSWORD = "admin";
+//    private final static String MQ_IP = "49.232.136.165";
+//    private final static Integer MQ_PORT = 5672;
+//    private final static String MQ_USERNAME = "admin";
+//    private final static String MQ_PASSWORD = "admin";
     private final static String QUEUE_NAME = "mq_test";
-
-    // ==========================本地开发环境================================
-    // private final static String MQ_IP = "127.0.0.1";
-    // private final static Integer MQ_PORT = 5672;
-    // private final static String MQ_USERNAME = "guest";
-    // private final static String MQ_PASSWORD = "guest";
-    // // 队列名称
-    // private final static String QUEUE_NAME = "mq_test";
 
     /**
      * rabbitmq获取连接
@@ -40,16 +36,17 @@ public class RabbitMQUtil {
      * @throws Exception
      */
     public static Connection getConnection() throws Exception {
+        Map<String, Object> map = PropertiesUtil.getInstance().getPropMap();
         // 创建工厂连接
         ConnectionFactory connectionFactory = new ConnectionFactory();
         // 设置rabbitmq服务器的IP地址
-        connectionFactory.setHost(MQ_IP);
+        connectionFactory.setHost((String)map.get("spring.rabbitmq.host"));
         // 设置服务器端口号
-        connectionFactory.setPort(MQ_PORT);
+        connectionFactory.setPort(Integer.parseInt(map.get("spring.rabbitmq.port").toString()));
         // 设置服务器用户名
-        connectionFactory.setUsername(MQ_USERNAME);
+        connectionFactory.setUsername((String)map.get("spring.rabbitmq.username"));
         // 设置服务器密码
-        connectionFactory.setPassword(MQ_PASSWORD);
+        connectionFactory.setPassword((String)map.get("spring.rabbitmq.password"));
         return connectionFactory.newConnection();
     }
 
