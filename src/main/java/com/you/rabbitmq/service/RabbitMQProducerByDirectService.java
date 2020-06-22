@@ -1,6 +1,7 @@
 package com.you.rabbitmq.service;
 
-public interface RabbitMQProducerByDirectService
-{
-   public  String rabbitMQProducerByDirect(String message);
+import java.util.List;
+
+public interface RabbitMQProducerByDirectService {
+    public List<String> rabbitMQProducerByDirect(String message);
 }
