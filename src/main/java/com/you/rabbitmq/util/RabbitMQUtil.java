@@ -1,6 +1,7 @@
 package com.you.rabbitmq.util;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -18,20 +19,15 @@ import com.rabbitmq.client.Envelope;
  */
 
 public class RabbitMQUtil {
+    
+    
+    
     // ==========================测试环境================================
-    private final static String MQ_IP = "49.232.136.165";
-    private final static Integer MQ_PORT = 5672;
-    private final static String MQ_USERNAME = "admin";
-    private final static String MQ_PASSWORD = "admin";
+//    private final static String MQ_IP = "49.232.136.165";
+//    private final static Integer MQ_PORT = 5672;
+//    private final static String MQ_USERNAME = "admin";
+//    private final static String MQ_PASSWORD = "admin";
     private final static String QUEUE_NAME = "mq_test";
-
-    // ==========================本地开发环境================================
-    // private final static String MQ_IP = "127.0.0.1";
-    // private final static Integer MQ_PORT = 5672;
-    // private final static String MQ_USERNAME = "guest";
-    // private final static String MQ_PASSWORD = "guest";
-    // // 队列名称
-    // private final static String QUEUE_NAME = "mq_test";
 
     /**
      * rabbitmq获取连接
@@ -40,16 +36,17 @@ public class RabbitMQUtil {
      * @throws Exception
      */
     public static Connection getConnection() throws Exception {
+        Map<String, Object> map = PropertiesUtil.getInstance().getPropMap();
         // 创建工厂连接
         ConnectionFactory connectionFactory = new ConnectionFactory();
         // 设置rabbitmq服务器的IP地址
-        connectionFactory.setHost(MQ_IP);
+        connectionFactory.setHost((String)map.get("spring.rabbitmq.host"));
         // 设置服务器端口号
-        connectionFactory.setPort(MQ_PORT);
+        connectionFactory.setPort(Integer.parseInt(map.get("spring.rabbitmq.port").toString()));
         // 设置服务器用户名
-        connectionFactory.setUsername(MQ_USERNAME);
+        connectionFactory.setUsername((String)map.get("spring.rabbitmq.username"));
         // 设置服务器密码
-        connectionFactory.setPassword(MQ_PASSWORD);
+        connectionFactory.setPassword((String)map.get("spring.rabbitmq.password"));
         return connectionFactory.newConnection();
     }
 
@@ -90,9 +87,11 @@ public class RabbitMQUtil {
              * @param routingKey
              *            路由关键字
              * @param mandatory
-             *            监听是否有符合的队列
+             *            监听是否有符合的队列；当为true时，如果exchange根据自身类型和消息routeKey无法找到一个符合条件的queue，那么会调用basic.return方法将消息返还给生产者
+             *            为false时出现上述情形broker会直接将消息扔掉
              * @param immediate
-             *            监听符合的队列上是否有至少一个Consumer
+             *            监听符合的队列上是否有至少一个Consumer；为true时，如果exchange在将消息route到queue时发现对应的queue上没有消费者，那么这条消息不会放入队列中
+             *            当与消息routeKey关联的所有queue(一个或多个)都没有消费者时，该消息会通过basic.return方法返还给生产者
              * @param BasicProperties
              *            设置消息持久化：MessageProperties.PERSISTENT_TEXT_PLAIN是持久化；MessageProperties.TEXT_PLAIN是非持久化
              * @param body
