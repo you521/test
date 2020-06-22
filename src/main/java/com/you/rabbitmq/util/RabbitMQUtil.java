@@ -87,9 +87,11 @@ public class RabbitMQUtil {
              * @param routingKey
              *            路由关键字
              * @param mandatory
-             *            监听是否有符合的队列
+             *            监听是否有符合的队列；当为true时，如果exchange根据自身类型和消息routeKey无法找到一个符合条件的queue，那么会调用basic.return方法将消息返还给生产者
+             *            为false时出现上述情形broker会直接将消息扔掉
              * @param immediate
-             *            监听符合的队列上是否有至少一个Consumer
+             *            监听符合的队列上是否有至少一个Consumer；为true时，如果exchange在将消息route到queue时发现对应的queue上没有消费者，那么这条消息不会放入队列中
+             *            当与消息routeKey关联的所有queue(一个或多个)都没有消费者时，该消息会通过basic.return方法返还给生产者
              * @param BasicProperties
              *            设置消息持久化：MessageProperties.PERSISTENT_TEXT_PLAIN是持久化；MessageProperties.TEXT_PLAIN是非持久化
              * @param body
