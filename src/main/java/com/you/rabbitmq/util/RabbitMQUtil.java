@@ -71,15 +71,15 @@ public class RabbitMQUtil {
              * 申明一个队列，如果这个队列不存在，将会被创建
              * 
              * @param queue
-             *            队列名称
+             *            队列名称 ; 数据类型：String
              * @param durable
-             *            持久性：true队列会再重启过后存在，但是其中的消息不会存在
+             *            持久性：true队列会再重启过后存在，但是其中的消息不会存在; 数据类型：boolean
              * @param exclusive
-             *            是否只能由创建者使用，其他连接不能使用(排他性)
+             *            是否只能由创建者使用，其他连接不能使用(排他性); 数据类型：boolean
              * @param autoDelete
-             *            是否自动删除（没有连接自动删除）
+             *            是否自动删除（没有连接自动删除）; 数据类型：boolean
              * @param arguments
-             *            队列的其他属性(构造参数)
+             *            队列的其他属性(构造参数); 数据类型：Map<String, Object>
              */
             channel.queueDeclare(QUEUE_NAME, true, false, false, null);
             /**
