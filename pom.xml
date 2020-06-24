@@ -7,6 +7,7 @@
 	<artifactId>rabbitmq-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rabbitmq-demo</name>
+	<packaging>war</packaging>
 	<description>rabbitmq学习demo</description>
 
     <!-- 引入父依赖包 -->
@@ -32,6 +33,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+               <groupId>org.springframework.boot</groupId>
+               <artifactId>spring-boot-starter-tomcat</artifactId>
+               <scope>provided</scope>
+          </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web-services</artifactId>
@@ -69,17 +75,18 @@
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
-		    <version>3.8.1</version>
 		</dependency>
 
 	    <dependency>
 	        <groupId>com.rabbitmq</groupId>
 	        <artifactId>amqp-client</artifactId>
-            <version>${rabbitmq.version}</version>
 	    </dependency>
 	</dependencies>
 
 	<build>
+	   <!--打war包到生产环境时配置-->
+	   <!-- 应与application.properties(或application.yml)中context-path保持一致 -->
+        <finalName>hello</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
